@@ -1,11 +1,10 @@
 # mscp: multi-threaded scp
 
-[![build on ubuntu](https://github.com/upa/mscp/actions/workflows/build-ubuntu.yml/badge.svg)](https://github.com/upa/mscp/actions/workflows/build-ubuntu.yml)
-[![build on macOS](https://github.com/upa/mscp/actions/workflows/build-macos.yml/badge.svg)](https://github.com/upa/mscp/actions/workflows/build-macos.yml)
-[![build on FreeBSD](https://github.com/upa/mscp/actions/workflows/build-freebsd.yml/badge.svg)](https://github.com/upa/mscp/actions/workflows/build-freebsd.yml)
-[![test](https://github.com/upa/mscp/actions/workflows/test.yml/badge.svg)](https://github.com/upa/mscp/actions/workflows/test.yml)
+[![CI](https://github.com/sabari245/mscp/actions/workflows/ci.yml/badge.svg)](https://github.com/sabari245/mscp/actions/workflows/ci.yml)
+[![test](https://github.com/sabari245/mscp/actions/workflows/test.yml/badge.svg)](https://github.com/sabari245/mscp/actions/workflows/test.yml)
 
-
+This repository is an independent copy of `mscp`, originally written by
+Ryo Nakamura (upstream: [upa/mscp](https://github.com/upa/mscp)).
 
 `mscp`, a variant of `scp`, copies files over multiple SSH (SFTP)
 connections by multiple threads. It enables transferring (1) multiple
@@ -32,12 +31,17 @@ Major differences from `scp` on usage:
 - Remote-to-remote copy is not supported.
 - `-r` option is not needed to transfer directories.
 - Checkpointing for resuming failed transfer is supported.
+- `~/.ssh/config` is parsed by default; use `-F` to specify a different
+  configuration file.
 - and any other differences I have not implemented and noticed.
 
 Paper:
 - Ryo Nakamura and Yohei Kuga. 2023. Multi-threaded scp: Easy and Fast File Transfer over SSH. In Practice and Experience in Advanced Research Computing (PEARC '23). Association for Computing Machinery, New York, NY, USA, 320–323. https://doi.org/10.1145/3569951.3597582
 
 ## Install
+
+Prebuilt packages are published by the upstream project only; this copy
+is built from source (see [Build](#build)).
 
 - macOS
 
@@ -69,13 +73,12 @@ patch introduces asynchronous SFTP Write, which is derived from
 https://github.com/limes-datentechnik-gmbh/libssh (see [Re: SFTP Write
 async](https://archive.libssh.org/libssh/2020-06/0000004.html)).
 
-We test building mscp on Linux (Ubuntu, Rocky, Alma, and Alpine),
-macOS, and FreeBSD.
+We test building mscp on Ubuntu 22.04/24.04 and Arch Linux.
 
 
 ```console
 # clone this repository
-git clone https://github.com/upa/mscp.git
+git clone https://github.com/sabari245/mscp.git
 cd mscp
 
 # prepare patched libssh
@@ -100,7 +103,7 @@ make install
 ```
 
 Source tar balls (`mscp-X.X.X.tar.gz`, not `Source code`) in
-[Releases page](https://github.com/upa/mscp/releases) contain the patched version
+[Releases page](https://github.com/sabari245/mscp/releases) contain the patched version
 of libssh. So you can start from cmake with it.
 
 
