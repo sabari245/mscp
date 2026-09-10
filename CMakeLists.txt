@@ -73,6 +73,13 @@ if(BUILD_CONAN)
 endif()
 add_subdirectory(libssh EXCLUDE_FROM_ALL)
 
+# libssh defines both the 'ssh' and 'ssh-static' targets and, with
+# BUILD_SHARED_LIBS=OFF, both would produce libssh.a. Ninja rejects two rules
+# generating the same output. We only use ssh-static, so rename the other one.
+if(TARGET ssh)
+	set_target_properties(ssh PROPERTIES OUTPUT_NAME ssh-shared)
+endif()
+
 
 
 # setup mscp compile options
