@@ -43,11 +43,11 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install --no-install-recommends -y \
-            gcc make cmake zlib1g-dev libssl-dev libkrb5-dev patch
+            gcc make cmake ninja-build zlib1g-dev libssl-dev libkrb5-dev patch
 
       - name: Install build dependencies (arch)
         if: matrix.image == 'archlinux:base'
-        run: pacman -S --noconfirm --needed zlib openssl
+        run: pacman -S --noconfirm --needed zlib openssl ninja
 
       - name: Apply libssh async-write patch
         run: |
@@ -58,9 +58,8 @@ jobs:
 
       - name: Build
         run: |
-          mkdir -p build && cd build
-          cmake ..
-          make -j"$(nproc)"
+          cmake -G Ninja -B build -DCMAKE_BUILD_TYPE=Release
+          ninja -C build
 
       - name: Package
         id: pkg
