@@ -107,6 +107,16 @@ Source tar balls (`mscp-X.X.X.tar.gz`, not `Source code`) in
 of libssh. So you can start from cmake with it.
 
 
+## Credits
+
+`mscp` was created and is maintained upstream by **Ryo Nakamura**
+([@upa](https://github.com/upa)) and contributors at
+[upa/mscp](https://github.com/upa/mscp), under the GNU General Public
+License v3 (see [LICENSE](/LICENSE)). This repository is an independent
+copy; all original design and implementation credit belongs to the
+upstream authors.
+
+
 ## Documentation
 
 [manpage](/doc/mscp.rst) is available.
