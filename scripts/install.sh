@@ -2,7 +2,7 @@
 #
 # Install mscp from a GitHub release.
 #
-# Supported platforms: Ubuntu 22.04/24.04 and Arch Linux (x86_64).
+# Supported platforms: Ubuntu 22.04+/Debian 12+ (glibc >= 2.35) and Arch Linux (x86_64).
 #
 # Usage:
 #   ./scripts/install.sh                 # install the latest release
@@ -66,22 +66,26 @@ if [ -r /etc/os-release ]; then
 fi
 distro_id="${ID:-}"
 distro_like="${ID_LIKE:-}"
-distro_ver="${VERSION_ID:-}"
 
 platform=""
-if [ "$distro_id" = ubuntu ] || [[ "$distro_like" == *ubuntu* ]]; then
-	case "$distro_ver" in
-		22.04|22.04.*) platform=ubuntu-22.04 ;;
-		24.04|24.04.*) platform=ubuntu-24.04 ;;
-		*)
-			echo "error: unsupported Ubuntu version: ${distro_ver:-unknown} (supported: 22.04, 24.04)" >&2
-			exit 1 ;;
-	esac
+if [ "$distro_id" = ubuntu ] || [ "$distro_id" = debian ] \
+	|| [[ "$distro_like" == *ubuntu* ]] || [[ "$distro_like" == *debian* ]]; then
+	platform=linux-glibc
 elif [ "$distro_id" = arch ] || [[ "$distro_like" == *arch* ]]; then
 	platform=arch
 else
-	echo "error: unsupported distribution: ${distro_id:-unknown} (supported: Ubuntu 22.04/24.04, Arch Linux)" >&2
+	echo "error: unsupported distribution: ${distro_id:-unknown} (supported: Ubuntu 22.04+, Debian 12+, Arch Linux)" >&2
 	exit 1
+fi
+
+# The glibc artifact is built on Ubuntu 22.04 (glibc 2.35) and relies on
+# forward compatibility, so refuse older systems where it would not run.
+if [ "$platform" = linux-glibc ]; then
+	glibc_ver=$(getconf GNU_LIBC_VERSION 2>/dev/null | awk '{print $2}')
+	if [ -n "$glibc_ver" ] && ! printf '%s\n%s\n' "2.35" "$glibc_ver" | sort -V -C; then
+		echo "error: glibc ${glibc_ver} is too old (need >= 2.35, e.g. Ubuntu 22.04+ or Debian 12+)" >&2
+		exit 1
+	fi
 fi
 
 # Resolve the release tag.

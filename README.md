@@ -41,7 +41,7 @@ Paper:
 
 Prebuilt Linux binaries (x86_64) are published on the
 [Releases page](https://github.com/sabari245/mscp/releases) for Ubuntu
-22.04/24.04 and Arch Linux.
+22.04+/Debian 12+ (glibc >= 2.35) and Arch Linux.
 
 The install script downloads the latest release, verifies its checksum,
 and installs the `mscp` binary and manpage:

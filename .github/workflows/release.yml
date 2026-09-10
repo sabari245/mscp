@@ -10,17 +10,19 @@ permissions:
 jobs:
   build:
     name: build (${{ matrix.name }})
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
         include:
-          # Build on the oldest ubuntu runner for wide glibc compatibility
-          - name: ubuntu-22.04
+          # Build on the oldest supported Ubuntu (glibc 2.35) so the single
+          # glibc artifact runs on Ubuntu 22.04+, Debian 12+ and other
+          # glibc >= 2.35 systems.
+          - name: linux-glibc
+            runner: ubuntu-22.04
             image: ""
-          - name: ubuntu-24.04
-            image: ""
-          - name: archlinux
+          - name: arch
+            runner: ubuntu-latest
             image: archlinux:base
     container: ${{ matrix.image && matrix.image || null }}
 
@@ -66,10 +68,7 @@ jobs:
           MSCP_VERSION: ${{ github.ref_name }}
         run: |
           tag="${MSCP_VERSION#v}"
-          case "${{ matrix.name }}" in
-            archlinux) platform="arch" ;;
-            *)         platform="${{ matrix.name }}" ;;
-          esac
+          platform="${{ matrix.name }}"
           dir="mscp-${tag}-${platform}-x86_64"
           mkdir -p "$dir"
           install -m 0755 build/mscp "$dir/mscp"
