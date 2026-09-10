@@ -1,7 +1,6 @@
 # mscp: multi-threaded scp
 
-[![CI](https://github.com/sabari245/mscp/actions/workflows/ci.yml/badge.svg)](https://github.com/sabari245/mscp/actions/workflows/ci.yml)
-[![test](https://github.com/sabari245/mscp/actions/workflows/test.yml/badge.svg)](https://github.com/sabari245/mscp/actions/workflows/test.yml)
+[![Release](https://github.com/sabari245/mscp/actions/workflows/release.yml/badge.svg)](https://github.com/sabari245/mscp/actions/workflows/release.yml)
 
 This repository is an independent copy of `mscp`, originally written by
 Ryo Nakamura (upstream: [upa/mscp](https://github.com/upa/mscp)).
