@@ -40,30 +40,27 @@ Paper:
 
 ## Install
 
-Prebuilt packages are published by the upstream project only; this copy
-is built from source (see [Build](#build)).
+Prebuilt Linux binaries (x86_64) are published on the
+[Releases page](https://github.com/sabari245/mscp/releases) for Ubuntu
+22.04/24.04 and Arch Linux.
 
-- macOS
+The install script downloads the latest release, verifies its checksum,
+and installs the `mscp` binary and manpage:
 
 ```console
-# Homebrew
-brew install upa/tap/mscp
-
-# MacPorts
-sudo port install mscp
+curl -fsSL https://raw.githubusercontent.com/sabari245/mscp/main/scripts/install.sh | bash
 ```
 
-- Ubuntu
+Or clone the repository and run it locally:
+
 ```console
-sudo add-apt-repository ppa:upaa/mscp
-sudo apt-get install mscp
+./scripts/install.sh                 # install the latest release
+./scripts/install.sh -v v0.2.5       # install a specific release
+./scripts/install.sh -p ~/.local     # install to a custom prefix (no sudo)
 ```
 
-- RHEL-based distributions
-```console
-sudo dnf copr enable upaaa/mscp
-sudo dnf install mscp
-```
+Prebuilt packages for other platforms are published by the upstream
+project only; otherwise build from source (see [Build](#build)).
 
 
 ## Build
